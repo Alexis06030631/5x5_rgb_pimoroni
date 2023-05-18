@@ -1,0 +1,43 @@
+{
+	"name": "5x5_rgb_pimoroni",
+	"version": "1.0.0",
+	"description": "A module to interact with the 5x5 RGB matrix from Pimoroni",
+	"scripts": {
+		"test": "node test.js",
+		"publish": "npm run build && npm publish --access public",
+		"build": "tsc"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"keywords": [
+		"5x5",
+		"rgb",
+		"matrix",
+		"Pimoroni"
+	],
+	"author": "Alexis06030631",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:Alexis06030631/5x5_rgb_pimoroni.git",
+		"directory": "src",
+		"branch": "main"
+	},
+	"bugs": {
+		"url": "https://github.com/Alexis06030631/5x5_rgb_pimoroni/issues"
+	},
+	"homepage": "https://github.com/Alexis06030631/5x5_rgb_pimoroni/",
+	"dependencies": {
+		"axios": "^1.4.0",
+		"i2c-bus": "^5.2.2"
+	},
+	"devDependencies": {
+		"@types/node": "^20.1.0",
+		"typescript": "^5.0.4"
+	},
+	"release": {
+		"branches": [
+			"main"
+		]
+	}
+}
