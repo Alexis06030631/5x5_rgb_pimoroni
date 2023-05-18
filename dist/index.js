@@ -37,7 +37,30 @@ class RGB_pimoroni {
         this.ledMap = ledMap;
         this.anim_interval = false;
         this.stop_snake_state = false;
-        this.lastColorsArray = [
+        this.lastColorsArray = this.lastColorsReset();
+        this.init();
+        process.on('SIGINT', () => {
+            this.init();
+            this.Stop();
+            process.exit();
+        });
+    }
+    init() {
+        this.setColor(0, 0, 0, 0);
+        this.reset();
+    }
+    reset() {
+        this.sendCommand(0, [1], true);
+        this.sendCommand(36, [0], true);
+        this.sendCommand(68, [0], true);
+        this.sendCommand(100, [0], true);
+        this.sendCommand(132, [0], true);
+        this.sendCommand(164, [0], true);
+        this.sendCommand(253, [11], true);
+        this.sendCommand(1, [1], true);
+    }
+    lastColorsReset() {
+        return [
             {
                 cmd: 36,
                 data: new Array(32).fill(0)
@@ -59,26 +82,6 @@ class RGB_pimoroni {
                 data: new Array(16).fill(0)
             }
         ];
-        this.init();
-        process.on('SIGINT', () => {
-            this.init();
-            this.Stop();
-            process.exit();
-        });
-    }
-    init() {
-        this.setColor(0, 0, 0, 0);
-        this.reset();
-    }
-    reset() {
-        this.sendCommand(0, [1], true);
-        this.sendCommand(36, [0], true);
-        this.sendCommand(68, [0], true);
-        this.sendCommand(100, [0], true);
-        this.sendCommand(132, [0], true);
-        this.sendCommand(164, [0], true);
-        this.sendCommand(253, [11], true);
-        this.sendCommand(1, [1], true);
     }
     /**
      * Send command with i2c protocol
@@ -244,15 +247,15 @@ class RGB_pimoroni {
     crossMark(r = 255, g = 0, b = 0, brightness = 1, speed = 10) {
         this.setColor(0, 0, 0);
         this.setColorLed(0, 0, r, g, b, brightness);
-        setInterval(() => this.setColorLed(1, 1, r, g, b, brightness), speed);
-        setInterval(() => this.setColorLed(2, 2, r, g, b, brightness), speed * 2);
-        setInterval(() => this.setColorLed(3, 3, r, g, b, brightness), speed * 3);
-        setInterval(() => this.setColorLed(4, 4, r, g, b, brightness), speed * 4);
-        setInterval(() => this.setColorLed(0, 4, r, g, b, brightness), speed * 5);
-        setInterval(() => this.setColorLed(1, 3, r, g, b, brightness), speed * 6);
-        setInterval(() => this.setColorLed(2, 2, r, g, b, brightness), speed * 7);
-        setInterval(() => this.setColorLed(3, 1, r, g, b, brightness), speed * 8);
-        setInterval(() => this.setColorLed(4, 0, r, g, b, brightness), speed * 9);
+        setTimeout(() => this.setColorLed(1, 1, r, g, b, brightness), speed);
+        setTimeout(() => this.setColorLed(2, 2, r, g, b, brightness), speed * 2);
+        setTimeout(() => this.setColorLed(3, 3, r, g, b, brightness), speed * 3);
+        setTimeout(() => this.setColorLed(4, 4, r, g, b, brightness), speed * 4);
+        setTimeout(() => this.setColorLed(0, 4, r, g, b, brightness), speed * 5);
+        setTimeout(() => this.setColorLed(1, 3, r, g, b, brightness), speed * 6);
+        setTimeout(() => this.setColorLed(2, 2, r, g, b, brightness), speed * 7);
+        setTimeout(() => this.setColorLed(3, 1, r, g, b, brightness), speed * 8);
+        setTimeout(() => this.setColorLed(4, 0, r, g, b, brightness), speed * 9);
     }
     /**
      * Make a validation mark
@@ -264,13 +267,13 @@ class RGB_pimoroni {
     validMark(r = 0, g = 255, b = 0, brightness = 1, speed = 10) {
         this.setColor(0, 0, 0);
         this.setColorLed(0, 2, r, g, b, brightness);
-        setInterval(() => this.setColorLed(1, 1, r, g, b, brightness), speed);
-        setInterval(() => this.setColorLed(2, 0, r, g, b, brightness), speed * 2);
-        setInterval(() => this.setColorLed(3, 1, r, g, b, brightness), speed * 3);
-        setInterval(() => this.setColorLed(4, 2, r, g, b, brightness), speed * 4);
-        setInterval(() => this.setColorLed(3, 3, r, g, b, brightness), speed * 5);
-        setInterval(() => this.setColorLed(2, 4, r, g, b, brightness), speed * 6);
-        setInterval(() => this.setColorLed(1, 3, r, g, b, brightness), speed * 7);
+        setTimeout(() => this.setColorLed(1, 1, r, g, b, brightness), speed);
+        setTimeout(() => this.setColorLed(2, 0, r, g, b, brightness), speed * 2);
+        setTimeout(() => this.setColorLed(3, 1, r, g, b, brightness), speed * 3);
+        setTimeout(() => this.setColorLed(4, 2, r, g, b, brightness), speed * 4);
+        setTimeout(() => this.setColorLed(3, 3, r, g, b, brightness), speed * 5);
+        setTimeout(() => this.setColorLed(2, 4, r, g, b, brightness), speed * 6);
+        setTimeout(() => this.setColorLed(1, 3, r, g, b, brightness), speed * 7);
     }
 }
 exports.RGB_pimoroni = RGB_pimoroni;

@@ -10,6 +10,10 @@ declare class RGB_pimoroni {
     constructor(addr?: number, busNumber?: number);
     init(): void;
     reset(): void;
+    lastColorsReset(): {
+        cmd: number;
+        data: any[];
+    }[];
     /**
      * Send command with i2c protocol
      * @param {Number} cmd - The command number to execute
