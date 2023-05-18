@@ -3,7 +3,7 @@ import {emitWarning} from "process"
 import axios from "axios"
 // @ts-ignore
 import * as package_Dt from "../package.json"
-const url = "https://registry.npmjs.org/pawan_openai";
+const url = "https://registry.npmjs.org/5x5_rgb_pimoroni";
 
 const colors = {
 	"reset": "\x1b[0m",

@@ -31,7 +31,7 @@ const process_1 = require("process");
 const axios_1 = __importDefault(require("axios"));
 // @ts-ignore
 const package_Dt = __importStar(require("../package.json"));
-const url = "https://registry.npmjs.org/pawan_openai";
+const url = "https://registry.npmjs.org/5x5_rgb_pimoroni";
 const colors = {
     "reset": "\x1b[0m",
     "bright": "\x1b[1m",
