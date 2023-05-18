@@ -4,7 +4,7 @@ import * as ledMap from './map_leds'
 // @ts-ignore
 import {FRAMES_REGISTER, GAIN_REGISTER, FRAMES_CHECK, LEDS_MAP, FRAME_EDIT, ledsNumber, LEDS_5X5_MAP_BY_ROW} from './utils.json'
 
-module.exports = class RGB_pimoroni {
+class RGB_pimoroni {
 	public addr: number;
 	public busNumber: number;
 	public bus: any;
@@ -268,6 +268,8 @@ module.exports = class RGB_pimoroni {
 	}
 
 }
+
+export {RGB_pimoroni};
 
 /**
  * @typedef cmds
