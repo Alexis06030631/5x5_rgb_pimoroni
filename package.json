@@ -32,6 +32,7 @@
 		"i2c-bus": "^5.2.2"
 	},
 	"devDependencies": {
+		"@types/i2c-bus": "^5.1.0",
 		"@types/node": "^20.1.0",
 		"typescript": "^5.0.4"
 	},

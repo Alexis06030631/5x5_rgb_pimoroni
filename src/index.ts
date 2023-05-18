@@ -1,7 +1,8 @@
 import "./checkUpdate"
 import * as i2c from 'i2c-bus'
 import * as ledMap from './map_leds'
-import {FRAMES_REGISTER, GAIN_REGISTER, FRAMES_CHECK, LEDS_MAP, FRAME_EDIT, ledsNumber, LEDS_5X5_MAP_BY_ROW} from './utils'
+// @ts-ignore
+import {FRAMES_REGISTER, GAIN_REGISTER, FRAMES_CHECK, LEDS_MAP, FRAME_EDIT, ledsNumber, LEDS_5X5_MAP_BY_ROW} from './utils.json'
 
 module.exports = class RGB_pimoroni {
 	public addr: number;
@@ -74,7 +75,7 @@ module.exports = class RGB_pimoroni {
 	 * @param {array} data - The data to parse in command
 	 * @param useFrames
 	 */
-	sendCommand(cmd, data= [], useFrames=false){
+	sendCommand(cmd:number, data:Array<any> = [], useFrames=false){
 		const view = Buffer.from(data)
 		if(!useFrames) this.sendCommand(FRAME_EDIT, [GAIN_REGISTER], true)
 		this.bus.writeI2cBlockSync(this.addr, cmd, view.length, view)
@@ -85,7 +86,7 @@ module.exports = class RGB_pimoroni {
 	 * @param {array<cmds>} array
 	 * @param {number} mode - The mode to use (NOT USE IT)
 	 */
-	sendArrayRequests(array, mode=FRAMES_REGISTER) {
+	sendArrayRequests(array:Array<any>, mode=FRAMES_REGISTER) {
 		this.sendCommand(FRAME_EDIT, [mode], true)
 		for (let i = 0; i < array.length; i++) {
 			this.sendCommand(array[i].cmd, array[i].data, true)
@@ -125,12 +126,12 @@ module.exports = class RGB_pimoroni {
 	 * @param {boolean} update - Update the LED
 	 * @param (data)
 	 */
-	setColorLed(x,y, r=0, g=0, b=0, brightness=1, update=true, data) {
+	setColorLed(x:number,y:number, r=0, g=0, b=0, brightness=1, update=true, data?:Array<any>) {
 		data = data||this.getMapArraySendColors()
 		const led_data = this.ledMap.getLedRGBByPosition(x, y)
-		data.filter((e) => e.cmd === led_data.red.cmd)[0].data[led_data.red.nb-1] = Math.round(r * brightness * 0.609, 0)
-		data.filter((e) => e.cmd === led_data.green.cmd)[0].data[led_data.green.nb-1] = Math.round(g * brightness * 0.609, 0)
-		data.filter((e) => e.cmd === led_data.blue.cmd)[0].data[led_data.blue.nb-1] = Math.round(b * brightness * 0.609, 0)
+		data.filter((e:any) => e.cmd === led_data.red.cmd)[0].data[led_data.red.nb-1] = Math.round(r * brightness * 0.609)
+		data.filter((e:any) => e.cmd === led_data.green.cmd)[0].data[led_data.green.nb-1] = Math.round(g * brightness * 0.609)
+		data.filter((e:any) => e.cmd === led_data.blue.cmd)[0].data[led_data.blue.nb-1] = Math.round(b * brightness * 0.609)
 
 		if(update) this.sendArrayRequests(data)
 		else return data
@@ -167,7 +168,7 @@ module.exports = class RGB_pimoroni {
 	 * @param led
 	 * @param speed
 	 */
-	snake(r, g, b, brightness=1, back=false, led=0, speed= 10) {
+	snake(r:number=0, g:number=255, b:number=0, brightness=1, back=false, led=0, speed= 10) {
 		if(this.stop_snake_state) return this.stop_snake_state = false
 		const led_data = this.ledMap.getLedPosition(led)
 		this.setColorLed(led_data.x, led_data.y, r, g, b, brightness)
@@ -206,9 +207,9 @@ module.exports = class RGB_pimoroni {
 			w++
 		}
 		if(w >= 5) {
-			r = Math.round(Math.random() * 255, 0)
-			g = Math.round(Math.random() * 255, 0)
-			b = Math.round(Math.random() * 255, 0)
+			r = Math.round(Math.random() * 255)
+			g = Math.round(Math.random() * 255)
+			b = Math.round(Math.random() * 255)
 			w = 0
 			h = 0
 		}

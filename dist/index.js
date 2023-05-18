@@ -26,7 +26,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./checkUpdate");
 const i2c = __importStar(require("i2c-bus"));
 const ledMap = __importStar(require("./map_leds"));
-const utils_1 = require("./utils");
+// @ts-ignore
+const utils_json_1 = require("./utils.json");
 module.exports = class RGB_pimoroni {
     constructor(addr = 0x74, busNumber = 1) {
         this.addr = addr;
@@ -87,7 +88,7 @@ module.exports = class RGB_pimoroni {
     sendCommand(cmd, data = [], useFrames = false) {
         const view = Buffer.from(data);
         if (!useFrames)
-            this.sendCommand(utils_1.FRAME_EDIT, [utils_1.GAIN_REGISTER], true);
+            this.sendCommand(utils_json_1.FRAME_EDIT, [utils_json_1.GAIN_REGISTER], true);
         this.bus.writeI2cBlockSync(this.addr, cmd, view.length, view);
     }
     /**
@@ -95,13 +96,13 @@ module.exports = class RGB_pimoroni {
      * @param {array<cmds>} array
      * @param {number} mode - The mode to use (NOT USE IT)
      */
-    sendArrayRequests(array, mode = utils_1.FRAMES_REGISTER) {
-        this.sendCommand(utils_1.FRAME_EDIT, [mode], true);
+    sendArrayRequests(array, mode = utils_json_1.FRAMES_REGISTER) {
+        this.sendCommand(utils_json_1.FRAME_EDIT, [mode], true);
         for (let i = 0; i < array.length; i++) {
             this.sendCommand(array[i].cmd, array[i].data, true);
         }
-        if (mode === utils_1.FRAMES_REGISTER) {
-            this.sendArrayRequests(array, utils_1.FRAMES_CHECK);
+        if (mode === utils_json_1.FRAMES_REGISTER) {
+            this.sendArrayRequests(array, utils_json_1.FRAMES_CHECK);
         }
     }
     Stop(yes = true) {
@@ -113,7 +114,7 @@ module.exports = class RGB_pimoroni {
         }
         else {
             const cmds = [];
-            for (const [cmd, value] of Object.entries(utils_1.LEDS_MAP)) {
+            for (const [cmd, value] of Object.entries(utils_json_1.LEDS_MAP)) {
                 cmds.push({
                     cmd: Number(cmd),
                     data: new Array(value).fill(0)
@@ -136,9 +137,9 @@ module.exports = class RGB_pimoroni {
     setColorLed(x, y, r = 0, g = 0, b = 0, brightness = 1, update = true, data) {
         data = data || this.getMapArraySendColors();
         const led_data = this.ledMap.getLedRGBByPosition(x, y);
-        data.filter((e) => e.cmd === led_data.red.cmd)[0].data[led_data.red.nb - 1] = Math.round(r * brightness * 0.609, 0);
-        data.filter((e) => e.cmd === led_data.green.cmd)[0].data[led_data.green.nb - 1] = Math.round(g * brightness * 0.609, 0);
-        data.filter((e) => e.cmd === led_data.blue.cmd)[0].data[led_data.blue.nb - 1] = Math.round(b * brightness * 0.609, 0);
+        data.filter((e) => e.cmd === led_data.red.cmd)[0].data[led_data.red.nb - 1] = Math.round(r * brightness * 0.609);
+        data.filter((e) => e.cmd === led_data.green.cmd)[0].data[led_data.green.nb - 1] = Math.round(g * brightness * 0.609);
+        data.filter((e) => e.cmd === led_data.blue.cmd)[0].data[led_data.blue.nb - 1] = Math.round(b * brightness * 0.609);
         if (update)
             this.sendArrayRequests(data);
         else
@@ -153,7 +154,7 @@ module.exports = class RGB_pimoroni {
      */
     setColor(r = 0, g = 0, b = 0, brightness = 1) {
         let data = [];
-        for (let i = 0; i < utils_1.ledsNumber; i++) {
+        for (let i = 0; i < utils_json_1.ledsNumber; i++) {
             const led_data = this.ledMap.getLedPosition(i);
             if (!data.length) {
                 data = this.setColorLed(led_data.x, led_data.y, r, g, b, brightness, false);
@@ -174,7 +175,7 @@ module.exports = class RGB_pimoroni {
      * @param led
      * @param speed
      */
-    snake(r, g, b, brightness = 1, back = false, led = 0, speed = 10) {
+    snake(r = 0, g = 255, b = 0, brightness = 1, back = false, led = 0, speed = 10) {
         if (this.stop_snake_state)
             return this.stop_snake_state = false;
         const led_data = this.ledMap.getLedPosition(led);
@@ -214,9 +215,9 @@ module.exports = class RGB_pimoroni {
             w++;
         }
         if (w >= 5) {
-            r = Math.round(Math.random() * 255, 0);
-            g = Math.round(Math.random() * 255, 0);
-            b = Math.round(Math.random() * 255, 0);
+            r = Math.round(Math.random() * 255);
+            g = Math.round(Math.random() * 255);
+            b = Math.round(Math.random() * 255);
             w = 0;
             h = 0;
         }
