@@ -13,7 +13,7 @@ A module to control the 5x5 matrix led from Pimoroni.
 ## Usage
 
 ```javascript
-const RGB_pimoroni = require('5x5_matrix_led_pimoroni')
+const RGB_pimoroni = require('5x5_matrix_pimoroni')
 
 const rgb = new RGB_pimoroni(ADDRESS_OF_THE_I2C_BUS=0x74, BUS_NUMBER=1)
 
