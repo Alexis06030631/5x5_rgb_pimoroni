@@ -6,3 +6,4 @@ package-lock.json
 .idea/
 .Ds_Store
 .github
+*.js

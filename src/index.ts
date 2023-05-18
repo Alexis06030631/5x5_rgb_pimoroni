@@ -2,7 +2,7 @@ import "./checkUpdate"
 import * as i2c from 'i2c-bus'
 import * as ledMap from './map_leds'
 // @ts-ignore
-import {FRAMES_REGISTER, GAIN_REGISTER, FRAMES_CHECK, LEDS_MAP, FRAME_EDIT, ledsNumber, LEDS_5X5_MAP_BY_ROW} from './utils.json'
+import {FRAMES_REGISTER, GAIN_REGISTER, FRAMES_CHECK, LEDS_MAP, FRAME_EDIT, ledsNumber, LEDS_5X5_MAP_BY_ROW} from './utils'
 
 class RGB_pimoroni {
 	public addr: number;

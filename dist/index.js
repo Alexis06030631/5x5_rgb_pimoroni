@@ -23,12 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RGB_pimoroni = void 0;
 require("./checkUpdate");
 const i2c = __importStar(require("i2c-bus"));
 const ledMap = __importStar(require("./map_leds"));
 // @ts-ignore
-const utils_json_1 = require("./utils.json");
-module.exports = class RGB_pimoroni {
+const utils_1 = require("./utils");
+class RGB_pimoroni {
     constructor(addr = 0x74, busNumber = 1) {
         this.addr = addr;
         this.busNumber = busNumber;
@@ -88,7 +89,7 @@ module.exports = class RGB_pimoroni {
     sendCommand(cmd, data = [], useFrames = false) {
         const view = Buffer.from(data);
         if (!useFrames)
-            this.sendCommand(utils_json_1.FRAME_EDIT, [utils_json_1.GAIN_REGISTER], true);
+            this.sendCommand(utils_1.FRAME_EDIT, [utils_1.GAIN_REGISTER], true);
         this.bus.writeI2cBlockSync(this.addr, cmd, view.length, view);
     }
     /**
@@ -96,13 +97,13 @@ module.exports = class RGB_pimoroni {
      * @param {array<cmds>} array
      * @param {number} mode - The mode to use (NOT USE IT)
      */
-    sendArrayRequests(array, mode = utils_json_1.FRAMES_REGISTER) {
-        this.sendCommand(utils_json_1.FRAME_EDIT, [mode], true);
+    sendArrayRequests(array, mode = utils_1.FRAMES_REGISTER) {
+        this.sendCommand(utils_1.FRAME_EDIT, [mode], true);
         for (let i = 0; i < array.length; i++) {
             this.sendCommand(array[i].cmd, array[i].data, true);
         }
-        if (mode === utils_json_1.FRAMES_REGISTER) {
-            this.sendArrayRequests(array, utils_json_1.FRAMES_CHECK);
+        if (mode === utils_1.FRAMES_REGISTER) {
+            this.sendArrayRequests(array, utils_1.FRAMES_CHECK);
         }
     }
     Stop(yes = true) {
@@ -114,7 +115,7 @@ module.exports = class RGB_pimoroni {
         }
         else {
             const cmds = [];
-            for (const [cmd, value] of Object.entries(utils_json_1.LEDS_MAP)) {
+            for (const [cmd, value] of Object.entries(utils_1.LEDS_MAP)) {
                 cmds.push({
                     cmd: Number(cmd),
                     data: new Array(value).fill(0)
@@ -154,7 +155,7 @@ module.exports = class RGB_pimoroni {
      */
     setColor(r = 0, g = 0, b = 0, brightness = 1) {
         let data = [];
-        for (let i = 0; i < utils_json_1.ledsNumber; i++) {
+        for (let i = 0; i < utils_1.ledsNumber; i++) {
             const led_data = this.ledMap.getLedPosition(i);
             if (!data.length) {
                 data = this.setColorLed(led_data.x, led_data.y, r, g, b, brightness, false);
@@ -271,7 +272,8 @@ module.exports = class RGB_pimoroni {
         setInterval(() => this.setColorLed(2, 4, r, g, b, brightness), speed * 6);
         setInterval(() => this.setColorLed(1, 3, r, g, b, brightness), speed * 7);
     }
-};
+}
+exports.RGB_pimoroni = RGB_pimoroni;
 /**
  * @typedef cmds
  * @param {number} cmd - The command name
