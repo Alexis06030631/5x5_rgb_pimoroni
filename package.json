@@ -1,6 +1,6 @@
 {
 	"name": "5x5_rgb_pimoroni",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A module to interact with the 5x5 RGB matrix from Pimoroni",
 	"scripts": {
 		"test": "node test.js",
